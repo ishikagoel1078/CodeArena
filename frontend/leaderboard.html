@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<h1>Leaderboard</h1>
+
+<table border="1" width="80%">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>User</th>
+            <th>Problem</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+
+    <tbody id="leaderboardBody">
+    </tbody>
+</table>
+
+<script>
+
+async function loadLeaderboard() {
+
+    const response =
+        await fetch(
+            "http://localhost:5000/leaderboard"
+        );
+
+    const data =
+        await response.json();
+
+    const tbody =
+        document.getElementById(
+            "leaderboardBody"
+        );
+
+    tbody.innerHTML = "";
+
+    data.submissions.forEach(
+        (submission, index) => {
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${submission.userName}</td>
+                    <td>${submission.problemTitle}</td>
+                    <td>${submission.score}</td>
+                </tr>
+            `;
+        }
+    );
+}
+
+loadLeaderboard();
+
+</script>
+</body>
+</html>

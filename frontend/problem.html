@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Problem - CodeArena</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <h1 id="problemTitle"></h1>
+    <p id="problemDifficulty"></p>
+
+<div id="problemDescription"></div>
+
+<hr>
+
+    <p>
+        Write your solution below.
+    </p>
+
+    <textarea
+        id="code"
+        rows="15"
+        cols="80"
+        placeholder="Write code here..."
+    ></textarea>
+
+    <br><br>
+
+    <button onclick="submitCode()">
+        Submit
+    </button>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+
+async function loadProblem() {
+    const title =
+    localStorage.getItem("selectedProblem");
+
+console.log("Selected Title:", title);
+
+    
+
+    const response =
+        await fetch(
+            `http://localhost:5000/problem/${title}`
+        );
+
+    const data =
+        await response.json();
+
+    console.log(data);
+
+if (!data.problem) {
+    alert("Problem not found");
+    return;
+}
+
+document.getElementById("problemTitle").innerText =
+    data.problem.title;
+
+document.getElementById("problemDifficulty").innerText =
+    "Difficulty: " + data.problem.difficulty;
+
+document.getElementById("problemDescription").innerText =
+    data.problem.description;
+
+    document.getElementById("problemDifficulty")
+        .innerText =
+        "Difficulty: " +
+        data.problem.difficulty;
+
+    document.getElementById("problemDescription")
+        .innerText =
+        data.problem.description;
+}
+
+loadProblem();
+async function submitCode() {
+
+    const code =
+        document.getElementById("code").value;
+
+    if (!code) {
+        alert("Write some code first");
+        return;
+    }
+
+    const user =
+        JSON.parse(
+            localStorage.getItem("loggedInUser")
+        );
+
+    const problemTitle =
+        document.getElementById("problemTitle")
+        .innerText;
+
+    const response =
+        await fetch(
+            "http://localhost:5000/submit",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+                body: JSON.stringify({
+                    userName: user.name,
+                    problemTitle,
+                    code
+                })
+            }
+        );
+
+    const data =
+        await response.json();
+
+    alert(data.message);
+}
+
+</script>
+
+</body>
+</html>

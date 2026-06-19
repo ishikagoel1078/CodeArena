@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problems - CodeArena</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <h1>Problem Set</h1>
+
+    <div class="dashboard-cards" id="problemsContainer">
+
+        
+
+    </div>
+    
+
+</div>
+
+<script src="script.js"></script>
+<script>
+
+async function loadProblems() {
+
+    const response =
+        await fetch(
+            "http://localhost:5000/problems"
+        );
+
+    const data =
+        await response.json();
+
+    const container =
+        document.getElementById(
+            "problemsContainer"
+        );
+
+    container.innerHTML = "";
+
+    data.problems.forEach(problem => {
+
+        container.innerHTML += `
+
+            <div class="card">
+
+                <h2>${problem.title}</h2>
+
+                <p>${problem.difficulty}</p>
+
+                <button
+                    onclick="openProblem('${problem.title}')">
+
+                    Solve
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+loadProblems();
+
+</script>
+
+</body>
+<nav class="navbar">
+    <h2>CodeArena</h2>
+
+    <div>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="problems.html">Problems</a>
+        <a href="leaderboard.html">Leaderboard</a>
+    </div>
+</nav>
+</html>

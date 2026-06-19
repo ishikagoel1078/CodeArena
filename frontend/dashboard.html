@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CodeArena</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+    <h2>CodeArena</h2>
+
+    <div>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="problems.html">Problems</a>
+        <a href="leaderboard.html">Leaderboard</a>
+    </div>
+</nav>
+
+    <div class="dashboard">
+
+        <h1 id="welcomeText">Welcome</h1>
+
+        <p>Practice coding and participate in contests.</p>
+
+        <div class="dashboard-cards">
+
+            <div class="cards">
+
+    <div class="card">
+        <h2>Problems</h2>
+        <p>Solve Coding Challenges</p>
+        <button onclick="window.location.href='problems.html'">
+            Open
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>Leaderboard</h2>
+        <p>Top Coders</p>
+        <button onclick="window.location.href='leaderboard.html'">
+            Open
+        </button>
+    </div>
+
+    <div class="card">
+    <h2>Users</h2>
+    <h1 id="userCount">2</h1>
+    <p>Registered Users</p>
+</div>
+
+</div>
+
+       <div class="card">
+    <h2>Challenges</h2>
+    <h1>3</h1>
+    <p>Available Challenges</p>
+</div>
+ <div class="card">
+    <h2>Account</h2>
+    <p>Secure Logout</p>
+
+    <button onclick="logout()">
+        Logout
+    </button>
+</div>
+<div class="card">
+    <h2>History</h2>
+    <p>View Submissions</p>
+
+    <button onclick="window.location.href='history.html'">
+        Open
+    </button>
+</div>
+
+    </div>
+    
+    <footer>
+    <p>© 2026 CodeArena | Online Coding Platform</p>
+</footer>
+<script src="script.js"></script>
+
+<script>
+
+const user =
+    JSON.parse(
+        localStorage.getItem("loggedInUser")
+    );
+
+if(!user)
+{
+    window.location.href = "login.html";
+}
+document.getElementById("welcomeText").innerText =
+    `Welcome, ${user.name}`;
+    fetch("http://localhost:5000/users/count")
+.then(res => res.json())
+.then(data => {
+
+    document.getElementById("userCount").innerText =
+        data.count;
+
+});
+
+</script>
+</body>
+
+</html>
